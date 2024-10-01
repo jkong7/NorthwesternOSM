@@ -52,7 +52,6 @@ int main() {
     cout << "Number of buildings: " << numBuildings << endl; 
 
     string user_input; 
-
     // Interactive loop that allows user to search for buildings by name or list all buildings 
     while (user_input != "$") {
         cout << "Enter building name (partial or complete), or * to list, or $ to end: "; 
@@ -64,9 +63,11 @@ int main() {
                 cout << building.ID << ": " << building.Name << ", " << building.StreetAddress << endl;
             }
         } else {
+            bool building_found_flag=false; 
             // Otherwise, user searches for a building--iterate through the list of buildings to find matches with find(). 
             for (const Building& building : buildings.MapBuildings) {
                 if (building.Name.find(user_input) != string::npos) {
+                    building_found_flag=true; 
                     // Display building details if building match(es) found
                     cout << building.Name << endl;
                     cout << "Address: " << building.StreetAddress << endl;
@@ -85,14 +86,15 @@ int main() {
                     }
                 }
             }
+            if (!building_found_flag) {
+                cout << "No such building" <<endl; 
+            }
         }
     }
-    
     // Summary of statistics after user exits.
     cout << "** Done **" << endl; 
     cout << "# of calls to getID(): " << Node::getCallsToGetID() << endl; 
     cout << "# of Nodes created: " << Node::getCreated() << endl; 
     cout << "# of Nodes copied: " << Node::getCopied() << endl; 
-
     return 0; 
 }

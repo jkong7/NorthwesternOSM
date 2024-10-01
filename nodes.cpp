@@ -107,6 +107,7 @@ void Nodes::readMapNodes(XMLDocument& xmldoc)
 //
 bool Nodes::find(long long id, double& lat, double& lon, bool& isEntrance) const
 {
+  /*
   //
   // linear search:
   //
@@ -125,6 +126,33 @@ bool Nodes::find(long long id, double& lat, double& lon, bool& isEntrance) const
   // if get here, not found:
   //
   return false;
+  */
+
+ //
+ //BINARY SEARCH, O(logN) v.s linear O(n)
+ //
+ int low = 0; 
+ int high = (int) this->MapNodes.size()-1; 
+ while (low<=high) {
+  int mid =low + ((high-low)/2); 
+
+  long long nodeid=this->MapNodes[mid].getID(); 
+
+  if (id == nodeid) {
+    lat = this->MapNodes[mid].getLat(); 
+    lon = this->MapNodes[mid].getLon(); 
+    isEntrance = this->MapNodes[mid].getIsEntrance(); 
+
+    return true; 
+  }
+  else if (id<nodeid) {
+    high=mid-1; 
+  }
+  else {
+    low=mid+1; 
+  }
+ }
+ return false; 
 }
 
 //
