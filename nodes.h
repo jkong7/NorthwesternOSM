@@ -67,5 +67,8 @@ public:
   //
   int getNumMapNodes() const;
 
+  const vector<Node>& getMapNodes() const;
+
+
 };
 

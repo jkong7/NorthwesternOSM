@@ -12,8 +12,12 @@
 
 #include <string>
 #include <vector>
+#include <iostream> 
 
 #include "node.h"
+#include "nodes.h"
+#include "busstops.h"
+#include "curl_util.h"
 
 using namespace std;
 
@@ -45,5 +49,21 @@ public:
   // adds the given nodeid to the end of the vector.
   //
   void add(long long nodeid);
+  
+  //
+  // print: Outputs building details, closest bus stop information, and bus arrival predictions.
+  // Parameters: nodes - the Nodes object that stores the lat/lon values of all nodes in the map.
+  //             busStops - the BusStops object that stores the bus stop information.
+  //             curl - CURL* pointer used for making API requests to fetch bus predictions.
+  // Returns: void
+  //
+  void print(const Nodes& nodes, const BusStops& BusStops, CURL* curl) const; 
+
+  //
+  // getLocation: calculates the average latitude and longitude of the building's perimeter nodes.
+  // Parameters: nodes - the Nodes object that stores the lat/lon values of all nodes in the map.
+  // Returns: pair containing the average latitude and longitude for building 
+  //
+  pair <double, double> getLocation(const Nodes& nodes) const; 
 
 };

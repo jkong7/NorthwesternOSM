@@ -8,9 +8,11 @@
 
 #pragma once 
 
+#include <iostream> 
 #include <vector>
 #include "building.h"
 #include "tinyxml2.h"
+#include "curl_util.h"
 
 using namespace std; 
 using namespace tinyxml2; 
@@ -39,4 +41,22 @@ class Buildings
     // Returns: int
     //
     int getNumMapBuildings() const; 
+
+
+    // print
+    // Operation: Prints outs building information for all buildings 
+    // Parameters: None
+    // Returns: void
+    void print(); 
+
+    // findAndPrint 
+    // Operation: Loops through all buildings and if there are match(es), will provide parameters to another print function
+    // to output further information about the matched buildings like closest stop and arrival predictions 
+    // Parameters: 
+    //             name - user_inputted string name to associate with buildings. 
+    //             nodes - the Nodes object that stores the lat/lon values of all nodes in the map.
+    //             busStops - the BusStops object that stores the bus stop information.
+    //             curl - CURL* pointer used for making API requests to fetch bus predictions.
+    // Returns: void
+    void findAndPrint (const string& name, const Nodes& nodes, const BusStops& BusStops, CURL* curl) const; 
 }; 

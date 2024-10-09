@@ -16,6 +16,7 @@
 #include "osm.h"
 #include "tinyxml2.h"
 #include "buildings.h"
+#include "curl_util.h"
 
 using namespace std;
 using namespace tinyxml2;
@@ -79,4 +80,37 @@ void Buildings::readMapBuildings(XMLDocument& xmldoc) {
 //
 int Buildings::getNumMapBuildings() const {
     return (int) this->MapBuildings.size(); 
+};
+
+// print
+// Operation: Prints outs building information for all buildings 
+// Parameters: None
+// Returns: void 
+void Buildings::print() {
+    for (const Building& building : MapBuildings) {
+        cout << building.ID << ": " << building.Name << ", " << building.StreetAddress << endl;
+    }; 
 }; 
+
+// findAndPrint 
+// Operation: Loops through all buildings and if there are match(es), will provide parameters to another print function
+// to output further information about the matched buildings like closest stop and arrival predictions 
+// Parameters: 
+//             name - user_inputted string name to associate with buildings. 
+//             nodes - the Nodes object that stores the lat/lon values of all nodes in the map.
+//             busStops - the BusStops object that stores the bus stop information.
+//             curl - CURL* pointer used for making API requests to fetch bus predictions.
+// Returns: void
+void Buildings::findAndPrint(const string& name, const Nodes& nodes, const BusStops& BusStops, CURL* curl) const {
+    bool building_found_flag = false; 
+    for (const Building& building : MapBuildings) {
+        if (building.Name.find(name) != string::npos) {
+            building_found_flag = true; 
+            building.print(nodes, BusStops, curl); 
+        }
+    } 
+    // Boolean logic - false to inform user the name matched no buildings 
+    if (!building_found_flag && name!="$") {
+        cout << "No such building" << endl; 
+    }
+}

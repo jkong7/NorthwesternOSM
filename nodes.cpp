@@ -161,3 +161,7 @@ bool Nodes::find(long long id, double& lat, double& lon, bool& isEntrance) const
 int Nodes::getNumMapNodes() const {
   return (int) this->MapNodes.size();
 }
+
+const vector<Node>& Nodes::getMapNodes() const {
+    return MapNodes;
+}
